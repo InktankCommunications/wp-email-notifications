@@ -371,7 +371,11 @@ class CMNotifier
         if ('publish' === $new_status && 'publish' !== $old_status && $post->post_type === 'post') {
             $postTitle = $post->post_title;
             $postExcerpt = $post->post_excerpt;
-            $postImage = get_the_post_thumbnail_url($post, 'email-thumb');
+
+            $innerThumbnail = get_field('inner_image', get_the_ID());
+
+            $postImage = empty($innerThumbnail) ? get_the_post_thumbnail_url($post, 'email-thumb') : $innerThumbnail;
+
             $postPermalink = get_post_permalink();
             $auth = $this->getAuth();
 
