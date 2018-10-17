@@ -248,7 +248,7 @@ class CMNotifier
                         <tr>
                             <td>
                                 <p class="notice notice-error">
-                                    <?php _e('An error happened on the WordPress side. Make sure your server allows remote calls.', 'feedier');?>
+                                    <?php _e('An error happened on the WordPress side. Make sure your API Key and Client ID are correct.', 'cmnotifier');?>
                                 </p>
                             </td>
                         </tr>
@@ -274,7 +274,7 @@ class CMNotifier
                         <tr>
                             <td>
                                 <p class="notice notice-error">
-                                    <?php _e('An error happened on the WordPress side. Make sure your server allows remote calls.', 'feedier');?>
+                                    <?php _e('An error happened on the WordPress side. Make sure your API Key and Client ID are correct.', 'cmnotifier');?>
                                 </p>
                             </td>
                         </tr>
