@@ -218,7 +218,7 @@ class CMNotifier
         ?>
 
         <div class="wrap">
-            <h3><?php _e('Campaign Monitor Configurations', 'cmnotifier');?></h3>
+            <h3><?php _e('Email Notifications Configuration', 'cmnotifier');?></h3>
             <hr>
             <form id="cmnotifier-admin-form">
                 <table class="form-table">
