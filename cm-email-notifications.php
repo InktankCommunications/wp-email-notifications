@@ -130,6 +130,31 @@ class CMNotifier
     }
 
     /**
+     * Get client lists
+     *
+     * @param string $clientID
+     * @return array
+     */
+    private function getClientLists($clientID)
+    {
+
+        $lists = array();
+
+        $auth = $this->getAuth();
+        $clients = new CS_REST_Clients($clientID, $auth);
+
+        $listsResult = $clients->get_lists();
+        $response = $listsResult->response;
+
+        if (is_array($response)) {
+            $lists = $response;
+        }
+
+        return $lists;
+
+    }
+
+    /**
      * The security nonce
      *
      * @var string
@@ -187,7 +212,8 @@ class CMNotifier
     {
 
         $data = $this->getData();
-        $templates = $this->getClientTemplates($data['client_id'])
+        $templates = $this->getClientTemplates($data['client_id']);
+        $lists = $this->getClientLists($data['client_id']);
 
         ?>
 
@@ -233,12 +259,45 @@ class CMNotifier
                                         </td>
                                         <td>
                                             <select name="cm_chosen_template"
-                                                    id="cm_chosen_template">
-                                                    <?php foreach ($templates as $template): ?>
-                                                        <option value="<?php echo $template->TemplateID; ?>" <?php echo ($template->TemplateID === $data['chosen_template']) ? 'selected' : '' ?>>
-                                                            <?php echo $template->Name; ?>
-                                                        </option>
-                                                    <?php endforeach;?>
+                                                id="cm_chosen_template">
+                                                <?php foreach ($templates as $template): ?>
+                                                    <option value="<?php echo $template->TemplateID; ?>" <?php echo ($template->TemplateID === $data['chosen_template']) ? 'selected' : '' ?>>
+                                                        <?php echo $template->Name; ?>
+                                                    </option>
+                                                <?php endforeach;?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <hr>
+                            </td>
+                        </tr>
+                    <?php endif;?>
+
+                    <?php if (empty($lists)): ?>
+                        <tr>
+                            <td>
+                                <p class="notice notice-error">
+                                    <?php _e('An error happened on the WordPress side. Make sure your server allows remote calls.', 'feedier');?>
+                                </p>
+                            </td>
+                        </tr>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="2">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label for="cm_chosen_list"><?php _e('Choose a List', 'cmnotifier');?></label>
+                                        </td>
+                                        <td>
+                                            <select name="cm_chosen_list"
+                                                id="cm_chosen_list">
+                                                <?php foreach ($lists as $list): ?>
+                                                    <option value="<?php echo $list->ListID; ?>" <?php echo ($list->ListID === $data['chosen_list']) ? 'selected' : '' ?>>
+                                                        <?php echo $list->Name; ?>
+                                                    </option>
+                                                <?php endforeach;?>
                                             </select>
                                         </td>
                                     </tr>
@@ -322,13 +381,16 @@ class CMNotifier
 
             $clientID = $data['client_id'];
 
+            var_dump('List');
+            var_dump($data['chosen_list']);
+
             $campaign_info = array(
                 'Subject' => $postTitle,
                 'Name' => $postTitle,
                 'FromName' => $data['from'],
                 'FromEmail' => $data['from_email'],
                 'ReplyTo' => $data['from_email'],
-                'ListIDs' => array('e246448bfdcf14aa3539e86897b8c142'),
+                'ListIDs' => array($data['chosen_list']),
                 'TemplateID' => $data['chosen_template'],
                 'TemplateContent' => array(
                     'Singlelines' => array(
