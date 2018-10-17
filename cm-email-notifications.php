@@ -379,9 +379,6 @@ class CMNotifier
 
             $clientID = $data['client_id'];
 
-            var_dump('List');
-            var_dump($data['chosen_list']);
-
             $campaign_info = array(
                 'Subject' => $postTitle,
                 'Name' => $postTitle,
