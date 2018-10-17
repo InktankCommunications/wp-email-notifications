@@ -221,21 +221,25 @@ class CMNotifier
             <h3><?php _e('Campaign Monitor Configurations', 'cmnotifier');?></h3>
             <hr>
             <form id="cmnotifier-admin-form">
-                <table>
+                <table class="form-table">
                     <tr>
-                        <td><label for="cm_api_key"><?php _e('API Key', 'cmnotifier');?></label></td>
+                        <th><label for="cm_api_key"><?php _e('API Key', 'cmnotifier');?></label></th>
                         <td>
                         <input name="cm_api_key"
                             id="cm_api_key"
+                            type="text"
+                            size="60"
                             value="<?php echo (isset($data['api_key'])) ? $data['api_key'] : ''; ?>"/>
                         </td>
                     </tr>
 
                     <tr>
-                        <td><label for="cm_api_key"><?php _e('Client ID', 'cmnotifier');?></label></td>
+                        <th><label for="cm_api_key"><?php _e('Client ID', 'cmnotifier');?></label></th>
                         <td>
                         <input name="cm_client_id"
                             id="cm_client_id"
+                            type="text"
+                            size="60"
                             value="<?php echo (isset($data['client_id'])) ? $data['client_id'] : ''; ?>"/>
                         </td>
                     </tr>
@@ -244,15 +248,15 @@ class CMNotifier
                         <tr>
                             <td>
                                 <p class="notice notice-error">
-                                    <?php _e('An error happened on the WordPress side. Make sure your server allows remote calls.', 'feedier');?>
+                                    <?php _e('An error happened on the WordPress side. Make sure your API Key and Client ID are correct.', 'cmnotifier');?>
                                 </p>
                             </td>
                         </tr>
                     <?php else: ?>
                         <tr>
-                            <td>
+                            <th>
                                 <label for="cm_chosen_template"><?php _e('Choose a Template', 'cmnotifier');?></label>
-                            </td>
+                            </th>
                             <td>
                                 <select name="cm_chosen_template"
                                     id="cm_chosen_template">
@@ -270,15 +274,15 @@ class CMNotifier
                         <tr>
                             <td>
                                 <p class="notice notice-error">
-                                    <?php _e('An error happened on the WordPress side. Make sure your server allows remote calls.', 'feedier');?>
+                                    <?php _e('An error happened on the WordPress side. Make sure your API Key and Client ID are correct.', 'cmnotifier');?>
                                 </p>
                             </td>
                         </tr>
                     <?php else: ?>
                         <tr>
-                            <td>
+                            <th>
                                 <label for="cm_chosen_list"><?php _e('Choose a List', 'cmnotifier');?></label>
-                            </td>
+                            </th>
                             <td>
                                 <select name="cm_chosen_list"
                                     id="cm_chosen_list">
@@ -293,45 +297,53 @@ class CMNotifier
                     <?php endif;?>
 
                     <tr>
-                        <td><label for="cm_from"><?php _e('From Name', 'cmnotifier');?></label></td>
+                        <th><label for="cm_from"><?php _e('From Name', 'cmnotifier');?></label></th>
                         <td>
                         <input name="cm_from"
                             id="cm_from"
+                            type="text"
+                            size="40"
                             value="<?php echo (isset($data['from'])) ? $data['from'] : ''; ?>"/>
                         </td>
                     </tr>
 
                     <tr>
-                        <td><label for="cm_from_email"><?php _e('From Email', 'cmnotifier');?></label></td>
+                        <th><label for="cm_from_email"><?php _e('From Email', 'cmnotifier');?></label></th>
                         <td>
                         <input name="cm_from_email"
                             id="cm_from_email"
+                            type="email"
+                            size="40"
                             value="<?php echo (isset($data['from_email'])) ? $data['from_email'] : ''; ?>"/>
                         </td>
                     </tr>
 
                     <tr>
-                        <td><label for="cm_replyto_email"><?php _e('ReplyTo Email', 'cmnotifier');?></label></td>
+                        <th><label for="cm_replyto_email"><?php _e('ReplyTo Email', 'cmnotifier');?></label></th>
                         <td>
                         <input name="cm_replyto_email"
                             id="cm_replyto_email"
+                            type="email"
+                            size="40"
                             value="<?php echo (isset($data['replyto_email'])) ? $data['replyto_email'] : ''; ?>"/>
                         </td>
                     </tr>
 
                     <tr>
-                        <td><label for="cm_confirmation_email"><?php _e('Confirmation Email', 'cmnotifier');?></label></td>
+                        <th><label for="cm_confirmation_email"><?php _e('Confirmation Email', 'cmnotifier');?></label></th>
                         <td>
                         <input name="cm_confirmation_email"
                             id="cm_confirmation_email"
+                            type="email"
+                            size="40"
                             value="<?php echo (isset($data['confirmation_email'])) ? $data['confirmation_email'] : ''; ?>"/>
                         </td>
                     </tr>
 
                     <tr>
-                        <td>
-                            <button type="submit"><?php _e('Save', 'cmnotifier');?></button>
-                        </td>
+                        <th>
+                            <button class="button-primary" type="submit"><?php _e('Save', 'cmnotifier');?></button>
+                        </th>
                     </tr>
                 </table>
             </form>
