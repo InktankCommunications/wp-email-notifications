@@ -250,26 +250,18 @@ class CMNotifier
                         </tr>
                     <?php else: ?>
                         <tr>
-                            <td colspan="2">
-                                <hr>
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <label for="cm_chosen_template"><?php _e('Choose a Template', 'cmnotifier');?></label>
-                                        </td>
-                                        <td>
-                                            <select name="cm_chosen_template"
-                                                id="cm_chosen_template">
-                                                <?php foreach ($templates as $template): ?>
-                                                    <option value="<?php echo $template->TemplateID; ?>" <?php echo ($template->TemplateID === $data['chosen_template']) ? 'selected' : '' ?>>
-                                                        <?php echo $template->Name; ?>
-                                                    </option>
-                                                <?php endforeach;?>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <hr>
+                            <td>
+                                <label for="cm_chosen_template"><?php _e('Choose a Template', 'cmnotifier');?></label>
+                            </td>
+                            <td>
+                                <select name="cm_chosen_template"
+                                    id="cm_chosen_template">
+                                    <?php foreach ($templates as $template): ?>
+                                        <option value="<?php echo $template->TemplateID; ?>" <?php echo ($template->TemplateID === $data['chosen_template']) ? 'selected' : '' ?>>
+                                            <?php echo $template->Name; ?>
+                                        </option>
+                                    <?php endforeach;?>
+                                </select>
                             </td>
                         </tr>
                     <?php endif;?>
@@ -284,25 +276,18 @@ class CMNotifier
                         </tr>
                     <?php else: ?>
                         <tr>
-                            <td colspan="2">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <label for="cm_chosen_list"><?php _e('Choose a List', 'cmnotifier');?></label>
-                                        </td>
-                                        <td>
-                                            <select name="cm_chosen_list"
-                                                id="cm_chosen_list">
-                                                <?php foreach ($lists as $list): ?>
-                                                    <option value="<?php echo $list->ListID; ?>" <?php echo ($list->ListID === $data['chosen_list']) ? 'selected' : '' ?>>
-                                                        <?php echo $list->Name; ?>
-                                                    </option>
-                                                <?php endforeach;?>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <hr>
+                            <td>
+                                <label for="cm_chosen_list"><?php _e('Choose a List', 'cmnotifier');?></label>
+                            </td>
+                            <td>
+                                <select name="cm_chosen_list"
+                                    id="cm_chosen_list">
+                                    <?php foreach ($lists as $list): ?>
+                                        <option value="<?php echo $list->ListID; ?>" <?php echo ($list->ListID === $data['chosen_list']) ? 'selected' : '' ?>>
+                                            <?php echo $list->Name; ?>
+                                        </option>
+                                    <?php endforeach;?>
+                                </select>
                             </td>
                         </tr>
                     <?php endif;?>
