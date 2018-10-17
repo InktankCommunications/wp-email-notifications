@@ -371,6 +371,7 @@ class CMNotifier
         if ('publish' === $new_status && 'publish' !== $old_status && $post->post_type === 'post') {
             $postTitle = $post->post_title;
             $postExcerpt = $post->post_excerpt;
+            $postImage = get_the_post_thumbnail_url($post, 'email-thumb');
             $postPermalink = get_post_permalink();
             $auth = $this->getAuth();
 
@@ -395,6 +396,9 @@ class CMNotifier
                     ),
                     'Multilines' => array(
                         array('Content' => $postExcerpt),
+                    ),
+                    'Images' => array(
+                        array('Content' => $postImage, 'Alt' => $postTitle, 'Href' => $postPermalink),
                     ),
                 ),
             );
