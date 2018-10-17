@@ -218,7 +218,7 @@ class CMNotifier
         ?>
 
         <div class="wrap">
-            <h3><?php _e('Campaign Monitor Configurations', 'cmnotifier');?></h3>
+            <h3><?php _e('Email Notifications Configuration', 'cmnotifier');?></h3>
             <hr>
             <form id="cmnotifier-admin-form">
                 <table class="form-table">
@@ -371,15 +371,13 @@ class CMNotifier
         if ('publish' === $new_status && 'publish' !== $old_status && $post->post_type === 'post') {
             $postTitle = $post->post_title;
             $postExcerpt = $post->post_excerpt;
+            $postImage = get_the_post_thumbnail_url($post, 'email-thumb');
             $postPermalink = get_post_permalink();
             $auth = $this->getAuth();
 
             $campaigns = new CS_REST_Campaigns(null, $auth);
 
             $clientID = $data['client_id'];
-
-            var_dump('List');
-            var_dump($data['chosen_list']);
 
             $campaign_info = array(
                 'Subject' => $postTitle,
@@ -395,6 +393,9 @@ class CMNotifier
                     ),
                     'Multilines' => array(
                         array('Content' => $postExcerpt),
+                    ),
+                    'Images' => array(
+                        array('Content' => $postImage, 'Alt' => $postTitle, 'Href' => $postPermalink),
                     ),
                 ),
             );
