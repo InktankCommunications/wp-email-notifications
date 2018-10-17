@@ -11,8 +11,8 @@
 /*
  * Require Campaign Monitor SDK
  */
-require_once 'libs/createsend-php/csrest_general.php';
 require_once 'libs/createsend-php/csrest_campaigns.php';
+require_once 'libs/createsend-php/csrest_clients.php';
 
 /*
  * Plugin constants
@@ -105,6 +105,31 @@ class CMNotifier
     }
 
     /**
+     * Get client templates
+     *
+     * @param string $clientID
+     * @return array
+     */
+    private function getClientTemplates($clientID)
+    {
+
+        $templates = array();
+
+        $auth = $this->getAuth();
+        $clients = new CS_REST_Clients($clientID, $auth);
+
+        $templatesResult = $clients->get_templates();
+        $response = $templatesResult->response;
+
+        if (is_array($response)) {
+            $templates = $response;
+        }
+
+        return $templates;
+
+    }
+
+    /**
      * The security nonce
      *
      * @var string
@@ -142,6 +167,18 @@ class CMNotifier
     }
 
     /**
+     * Returns the saved api key as an array
+     *
+     * @return array
+     */
+    private function getAuth()
+    {
+        $data = $this->getData();
+        return array('api_key' => $data['api_key']);
+
+    }
+
+    /**
      * Outputs the Admin Dashboard layout containing the form with all its options
      *
      * @return void
@@ -150,6 +187,7 @@ class CMNotifier
     {
 
         $data = $this->getData();
+        $templates = $this->getClientTemplates($data['client_id'])
 
         ?>
 
@@ -166,6 +204,49 @@ class CMNotifier
                             value="<?php echo (isset($data['api_key'])) ? $data['api_key'] : ''; ?>"/>
                         </td>
                     </tr>
+
+                    <tr>
+                        <td><label for="cm_api_key"><?php _e('Client ID', 'cmnotifier');?></label></td>
+                        <td>
+                        <input name="cm_client_id"
+                            id="cm_client_id"
+                            value="<?php echo (isset($data['client_id'])) ? $data['client_id'] : ''; ?>"/>
+                        </td>
+                    </tr>
+
+                    <?php if (empty($templates)): ?>
+                        <tr>
+                            <td>
+                                <p class="notice notice-error">
+                                    <?php _e('An error happened on the WordPress side. Make sure your server allows remote calls.', 'feedier');?>
+                                </p>
+                            </td>
+                        </tr>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="2">
+                                <hr>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label for="cm_chosen_template"><?php _e('Choose a Template', 'cmnotifier');?></label>
+                                        </td>
+                                        <td>
+                                            <select name="cm_chosen_template"
+                                                    id="cm_chosen_template">
+                                                    <?php foreach ($templates as $template): ?>
+                                                        <option value="<?php echo $template->TemplateID; ?>" <?php echo ($template->TemplateID === $data['chosen_template']) ? 'selected' : '' ?>>
+                                                            <?php echo $template->Name; ?>
+                                                        </option>
+                                                    <?php endforeach;?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <hr>
+                            </td>
+                        </tr>
+                    <?php endif;?>
 
                     <tr>
                         <td><label for="cm_from"><?php _e('From Name', 'cmnotifier');?></label></td>
@@ -235,9 +316,12 @@ class CMNotifier
             $postTitle = $post->post_title;
             $postExcerpt = $post->post_excerpt;
             $postPermalink = get_post_permalink();
-            $auth = array('api_key' => $data['api_key']);
-            $CampaignMonitor = new CS_REST_General($auth);
+            $auth = $this->getAuth();
+
             $campaigns = new CS_REST_Campaigns(null, $auth);
+
+            $clientID = $data['client_id'];
+
             $campaign_info = array(
                 'Subject' => $postTitle,
                 'Name' => $postTitle,
@@ -245,7 +329,7 @@ class CMNotifier
                 'FromEmail' => $data['from_email'],
                 'ReplyTo' => $data['from_email'],
                 'ListIDs' => array('e246448bfdcf14aa3539e86897b8c142'),
-                'TemplateID' => '28278c4f4927b39f3ea27d0d3886c2da',
+                'TemplateID' => $data['chosen_template'],
                 'TemplateContent' => array(
                     'Singlelines' => array(
                         array('Content' => $postTitle, 'Href' => $postPermalink),
@@ -260,8 +344,6 @@ class CMNotifier
                 'ConfirmationEmail' => $data['confirmation_email'],
                 'SendDate' => 'immediately',
             );
-            $allClients = $CampaignMonitor->get_clients();
-            $clientID = $allClients->response[0]->ClientID;
 
             // Create the campaign and get it's ID
             $campaignID = $campaigns->create_from_template($clientID, $campaign_info);
