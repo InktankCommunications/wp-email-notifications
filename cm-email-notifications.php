@@ -246,9 +246,9 @@ class CMNotifier
 
                     <?php if (empty($templates)): ?>
                         <tr>
-                            <td>
-                                <p class="notice notice-error">
-                                    <?php _e('An error happened on the WordPress side. Make sure your API Key and Client ID are correct.', 'cmnotifier');?>
+                            <td colspan="2">
+                                <p class="notice notice-error" style="display: inline-block;">
+                                    <?php _e('No templates found. If you already have a template, make sure your API Key and Client ID are correct.', 'cmnotifier');?>
                                 </p>
                             </td>
                         </tr>
@@ -272,9 +272,9 @@ class CMNotifier
 
                     <?php if (empty($lists)): ?>
                         <tr>
-                            <td>
-                                <p class="notice notice-error">
-                                    <?php _e('An error happened on the WordPress side. Make sure your API Key and Client ID are correct.', 'cmnotifier');?>
+                            <td colspan="2">
+                            <p class="notice notice-error" style="display: inline-block;">
+                                    <?php _e('No lists found. If you already have a list, make sure your API Key and Client ID are correct.', 'cmnotifier');?>
                                 </p>
                             </td>
                         </tr>
