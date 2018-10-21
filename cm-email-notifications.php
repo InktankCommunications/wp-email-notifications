@@ -234,7 +234,7 @@ class CMNotifier
                     </tr>
 
                     <tr>
-                        <th><label for="cm_api_key"><?php _e('Client ID', 'cmnotifier');?></label></th>
+                        <th><label for="cm_client_id"><?php _e('Client ID', 'cmnotifier');?></label></th>
                         <td>
                         <input name="cm_client_id"
                             id="cm_client_id"
